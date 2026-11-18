@@ -1,8 +1,8 @@
-﻿'use strict';
-/* Hanabira Flashcards èŠ±ã³ã‚‰ â€” spaced repetition PWA. Data lives in IndexedDB on the device.
+'use strict';
+/* Hanabira Flashcards 花びら — spaced repetition PWA. Data lives in IndexedDB on the device.
    UI strings: i18n.js (t / tn). */
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ utils
+// ───────────────────────── utils
 const LIB = (document.currentScript ? document.currentScript.src.replace(/app\.js(\?.*)?$/, '') : '') + 'lib/';
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -36,7 +36,7 @@ const ICON = {
   play: '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>',
 };
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ storage
+// ───────────────────────── storage
 const DB = {
   db: null,
   open() {
@@ -89,7 +89,7 @@ async function loadAll() {
   revlog = rl.sort((a, b) => a.id - b.id);
   S = { ...DEFAULTS, ...(st ? st.v : {}) };
 }
-// Cards made from the same note (e.g. frontâ†’back and backâ†’front of one word) share `nid`;
+// Cards made from the same note (e.g. front→back and back→front of one word) share `nid`;
 // `ord` is the card's template number. Older cards get it derived from their import id.
 function linkNote(c) {
   if (c.nid != null) return c;
@@ -123,7 +123,7 @@ function treeIds(deckId) {
 }
 const sortedDecks = () => [...decks.values()].sort((a, b) => a.name.localeCompare(b.name, LANG));
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ scheduler (SM-2 based)
+// ───────────────────────── scheduler (SM-2 based)
 function dayNum(ts = Date.now()) {
   const d = new Date(ts - S.rollover * 36e5);
   return Math.floor((d.getTime() - d.getTimezoneOffset() * MIN) / DAY);
@@ -242,7 +242,7 @@ function pickNext(ids, lastId) {
   return { g };
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ card rendering
+// ───────────────────────── card rendering
 const mediaUrls = new Map();
 async function mediaUrl(name) {
   if (mediaUrls.has(name)) return mediaUrls.get(name);
@@ -311,7 +311,7 @@ const answerHtml = c => c.fullBack ? c.back : `${c.front}<hr id="answer">${c.bac
 function renderCloze(text, ord, side) {
   return text.replace(/\{\{c(\d+)::([\s\S]*?)(?:::([^}]*?))?\}\}/g, (m, n, ans, hint) => {
     if (+n !== ord) return ans;
-    return side === 'q' ? `<span class="cloze">[${hint ? esc(hint) : 'â€¦'}]</span>` : `<span class="cloze">${ans}</span>`;
+    return side === 'q' ? `<span class="cloze">[${hint ? esc(hint) : '…'}]</span>` : `<span class="cloze">${ans}</span>`;
   });
 }
 function applyFilter(f, v, ctx) {
@@ -348,7 +348,7 @@ function renderTemplate(tpl, fields, ctx) {
   return tpl.replace(/\{\{(?![#^\/])([^}]+?)\}\}/g, (m, expr) => val(expr.trim()));
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ UI helpers
+// ───────────────────────── UI helpers
 function toast(msg, ms = 2000) {
   const el = $('#toast'); el.textContent = msg; el.classList.add('show');
   clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), ms);
@@ -390,7 +390,7 @@ function countsHtml(c, cur) {
 }
 const countsOf = ids => { const g = gather(ids); return { n: g.nw.length, l: g.lrn.length, r: g.rev.length }; };
 function deckOptions(sel) {
-  return sortedDecks().map(d => `<option value="${d.id}" ${d.id === sel ? 'selected' : ''}>${esc(d.name.replace(/::/g, ' â€º '))}</option>`).join('');
+  return sortedDecks().map(d => `<option value="${d.id}" ${d.id === sel ? 'selected' : ''}>${esc(d.name.replace(/::/g, ' › '))}</option>`).join('');
 }
 function applyTheme() { document.documentElement.dataset.theme = S.theme; }
 function applyLang() {
@@ -398,7 +398,7 @@ function applyLang() {
   $$('#tabs [data-tab]').forEach(b => { $('span', b).textContent = t('tab_' + b.dataset.tab); });
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ router
+// ───────────────────────── router
 let route = { v: 'decks' };
 function go(v, p = {}) { route = { v, ...p }; render(); }
 function render() {
@@ -412,7 +412,7 @@ function render() {
 
 const VIEWS = {};
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ decks list
+// ───────────────────────── decks list
 VIEWS.decks = view => {
   const all = sortedDecks();
   const tot = { n: 0, l: 0, r: 0 };
@@ -422,7 +422,7 @@ VIEWS.decks = view => {
   let hint = '';
   try { if (isIOS && !standalone && !localStorage.getItem('hanabira-hint')) hint = `<div class="panel small" style="margin-bottom:16px">${t('install_hint')} <a href="#" data-hide style="color:var(--gold)">${t('hide')}</a></div>`; } catch (e) {}
   view.innerHTML = `
-    <div class="top"><h1><span class="jp">èŠ±</span>Hanabira</h1></div>
+    <div class="top"><h1><span class="jp">花</span>Hanabira</h1></div>
     ${hint}
     <div class="summary">
       <div><b class="c-new">${tot.n}</b><span>${t('sum_new')}</span></div>
@@ -433,9 +433,9 @@ VIEWS.decks = view => {
       const depth = d.name.split('::').length - 1;
       const short = d.name.split('::').pop();
       return `<button class="row" data-deck="${d.id}" style="padding-left:${14 + depth * 18}px">
-        <span class="name">${depth ? '<span class="indent">â€º </span>' : ''}${esc(short)}</span>${countsHtml(countsOf(treeIds(d.id)))}</button>`;
+        <span class="name">${depth ? '<span class="indent">› </span>' : ''}${esc(short)}</span>${countsHtml(countsOf(treeIds(d.id)))}</button>`;
     }).join('')}</div>` : `
-      <div class="empty"><div class="big">å§‹</div><p>${t('no_decks')}</p>
+      <div class="empty"><div class="big">始</div><p>${t('no_decks')}</p>
       <button class="btn primary" data-new>${t('create_deck')}</button>
       <button class="btn" data-demo>${t('demo_btn')}</button>
       <button class="btn" data-import>${t('import_apkg')}</button></div>`}
@@ -453,7 +453,7 @@ VIEWS.decks = view => {
 async function makeDemo() {
   const d = await ensureDeck(t('demo_deck_name'));
   d.tts = 'ja-JP'; await saveDeck(d);
-  const pairs = [['ã‚', 'a'], ['ã„', 'i'], ['ã†', 'u'], ['ãˆ', 'e'], ['ãŠ', 'o'], ['ã‹', 'ka'], ['ã', 'ki'], ['ã', 'ku'], ['ã‘', 'ke'], ['ã“', 'ko'], ['ã•', 'sa'], ['ã—', 'shi'], ['ã™', 'su'], ['ã›', 'se'], ['ã', 'so']];
+  const pairs = [['あ', 'a'], ['い', 'i'], ['う', 'u'], ['え', 'e'], ['お', 'o'], ['か', 'ka'], ['き', 'ki'], ['く', 'ku'], ['け', 'ke'], ['こ', 'ko'], ['さ', 'sa'], ['し', 'shi'], ['す', 'su'], ['せ', 'se'], ['そ', 'so']];
   const have = new Set([...cards.values()].map(c => c.src));
   const list = pairs.filter(([f]) => !have.has('demo:' + f)).map(([f, b]) => newCard(d.id, `<div style="font-size:72px">${f}</div>`, textToHtml(b), { src: 'demo:' + f }));
   list.forEach(c => cards.set(c.id, c));
@@ -461,7 +461,7 @@ async function makeDemo() {
   go('deck', { id: d.id });
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ deck overview
+// ───────────────────────── deck overview
 VIEWS.deck = (view, { id }) => {
   const d = decks.get(id); if (!d) return go('decks');
   const ids = treeIds(id); const c = countsOf(ids);
@@ -473,7 +473,7 @@ VIEWS.deck = (view, { id }) => {
   if (d.tts) info.push(t('info_tts', { lang: d.tts }));
   view.innerHTML = `
     <div class="top"><button class="icon-btn" data-back>${ICON.back}</button><h2>${esc(d.name.split('::').pop())}</h2><button class="icon-btn" data-more>${ICON.more}</button></div>
-    ${d.name.includes('::') ? `<div class="muted small" style="margin:-8px 0 8px 50px">${esc(d.name.split('::').slice(0, -1).join(' â€º '))}</div>` : ''}
+    ${d.name.includes('::') ? `<div class="muted small" style="margin:-8px 0 8px 50px">${esc(d.name.split('::').slice(0, -1).join(' › '))}</div>` : ''}
     <div class="overview">
       <div class="counts"><span class="${c.n ? 'c-new' : 'zero'}">${c.n}</span><span class="${c.l ? 'c-learn' : 'zero'}">${c.l}</span><span class="${c.r ? 'c-due' : 'zero'}">${c.r}</span></div>
       <div class="labels"><span>${t('lbl_new')}</span><span>${t('lbl_learn')}</span><span>${t('lbl_review')}</span></div>
@@ -484,7 +484,7 @@ VIEWS.deck = (view, { id }) => {
       <button class="btn" data-add>${t('add_card')}</button>
       <button class="btn" data-browse>${t('cards_btn', { n: total })}</button>
     </div>
-    <p class="muted small center mt">${esc(info.join(' Â· '))}</p>`;
+    <p class="muted small center mt">${esc(info.join(' · '))}</p>`;
   $('[data-back]', view).onclick = () => go('decks');
   const st = $('[data-study]', view); if (st) st.onclick = () => go('study', { id });
   const ex = $('[data-extra]', view); if (ex) ex.onclick = async () => {
@@ -532,7 +532,7 @@ function deckMenu(d) {
   });
 }
 
-const TTS_LANGS = [['en-US', 'English (US)'], ['en-GB', 'English (UK)'], ['ja-JP', 'æ—¥æœ¬èªž'], ['de-DE', 'Deutsch'], ['fr-FR', 'FranÃ§ais'], ['es-ES', 'EspaÃ±ol'], ['it-IT', 'Italiano'], ['pl-PL', 'Polski'], ['uk-UA', 'Ð£ÐºÑ€Ð°Ñ—Ð½ÑÑŒÐºÐ°'], ['zh-CN', 'ä¸­æ–‡'], ['ko-KR', 'í•œêµ­ì–´'], ['pt-BR', 'PortuguÃªs']];
+const TTS_LANGS = [['en-US', 'English (US)'], ['en-GB', 'English (UK)'], ['ja-JP', '日本語'], ['de-DE', 'Deutsch'], ['fr-FR', 'Français'], ['es-ES', 'Español'], ['it-IT', 'Italiano'], ['pl-PL', 'Polski'], ['uk-UA', 'Українська'], ['zh-CN', '中文'], ['ko-KR', '한국어'], ['pt-BR', 'Português']];
 function ttsSheet(d) {
   const opts = [['', t('tts_off')], ...TTS_LANGS];
   sheet(`<h3>${t('tts_title')}</h3><p class="muted small">${t('tts_text')}</p>
@@ -554,7 +554,7 @@ function speak(text, lang, done) {
   speechSynthesis.speak(u);
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ study
+// ───────────────────────── study
 let study = null;
 VIEWS.study = (view, { id }) => {
   study = { deckId: id, ids: treeIds(id), lastId: null, undo: null, timer: null, session: 0, card: null, shown: false };
@@ -604,7 +604,7 @@ function doneHtml(p) {
   const parts = [];
   if (study.session) parts.push(t('done_reviewed', { cards: tn(study.session, 'cardsAcc') }));
   parts.push(later ? t('done_later', { n: later, time: fmtDur(p.wait - Date.now()) }) : t('done_tomorrow'));
-  return `<div class="done"><div class="big">å®Œ</div><h2>${t('done_title')}</h2>
+  return `<div class="done"><div class="big">完</div><h2>${t('done_title')}</h2>
     <p class="muted">${esc(parts.join(' '))}</p>
     <button class="btn primary mt" data-done style="max-width:260px;margin:24px auto 0">${t('done_btn')}</button></div>`;
 }
@@ -693,7 +693,7 @@ document.addEventListener('keydown', e => {
   else if ((e.ctrlKey || e.metaKey) && e.key === 'z') undoAnswer();
 });
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ add / edit
+// ───────────────────────── add / edit
 VIEWS.add = view => {
   if (!decks.size) {
     view.innerHTML = `<div class="top"><h1>${t('add_title')}</h1></div><div class="empty"><p>${t('create_deck_first')}</p><button class="btn primary" data-new>${t('create_deck')}</button></div>`;
@@ -735,7 +735,7 @@ function editCard(c, after) {
     <label class="f">${t('front_s')}</label><textarea class="input" data-front>${esc(val(c.front))}</textarea>
     <label class="f">${t('back_s')}</label><textarea class="input" data-back>${esc(val(c.back))}</textarea>
     <label class="f">${t('tags')}</label><input class="input" data-tags value="${esc(c.tags || '')}">
-    <p class="muted small">${esc(state)} Â· ${esc(t('reps_info', { r: c.reps || 0, l: c.lapses || 0 }))}</p>
+    <p class="muted small">${esc(state)} · ${esc(t('reps_info', { r: c.reps || 0, l: c.lapses || 0 }))}</p>
     <button class="btn primary" data-save>${t('save')}</button>
     <div class="btn-row mt"><button class="btn" data-susp>${c.susp ? t('unsuspend') : t('suspend')}</button><button class="btn" data-reset>${t('make_new')}</button></div>
     <button class="btn danger mt" data-del>${t('del_card')}</button>`, (el, close) => {
@@ -751,7 +751,7 @@ function editCard(c, after) {
   });
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ browse
+// ───────────────────────── browse
 VIEWS.browse = (view, p) => {
   view.innerHTML = `<div class="top"><h1>${t('browse_title')}</h1></div>
     <div class="search"><input class="input" id="q" placeholder="${esc(t('search_ph'))}" value="${esc(p.q || '')}">
@@ -788,7 +788,7 @@ VIEWS.browse = (view, p) => {
   draw();
 };
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ stats
+// ───────────────────────── stats
 VIEWS.stats = view => {
   const today = dayNum();
   const byDay = new Map(); let todayN = 0, todayT = 0, todayOk = 0;
@@ -819,7 +819,7 @@ VIEWS.stats = view => {
     <div class="stat-cards">
       <div><b>${todayN}</b><span>${t('st_reviews_today')}</span></div>
       <div><b>${t('u_min', { n: Math.round(todayT / MIN) })}</b><span>${t('st_time')}</span></div>
-      <div><b>${todayN ? Math.round(todayOk / todayN * 100) + '%' : 'â€”'}</b><span>${t('st_correct')}</span></div>
+      <div><b>${todayN ? Math.round(todayOk / todayN * 100) + '%' : '—'}</b><span>${t('st_correct')}</span></div>
       <div><b>${tn(streak, 'days')}</b><span>${t('st_streak')}</span></div>
     </div>
     <div class="section-title">${t('activity')}</div>
@@ -831,7 +831,7 @@ VIEWS.stats = view => {
     <div class="legend">${split.map(([n, col, l]) => `<span><i style="background:${col}"></i>${l}: ${n}</span>`).join('')}</div></div>`;
 };
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ settings
+// ───────────────────────── settings
 VIEWS.settings = view => {
   const row = (k, label, hint, numeric = true) => `<div class="setting"><div class="lbl">${t(label)}${hint ? `<small>${t(hint)}</small>` : ''}</div><input class="input" data-k="${k}" type="text" inputmode="${numeric ? 'decimal' : 'text'}" value="${esc(Array.isArray(S[k]) ? S[k].join(' ') : S[k])}"></div>`;
   view.innerHTML = `<div class="top"><h1>${t('settings_title')}</h1></div>
@@ -864,7 +864,7 @@ VIEWS.settings = view => {
     <p class="muted small" id="storage"></p>
     <div class="section-title">${t('s_install')}</div>
     <div class="panel small">${t('s_install_body')}</div>
-    <p class="muted small center mt2">Hanabira Flashcards èŠ±ã³ã‚‰ Â· v1.1 Â· <a href="https://github.com/k1adu/hanabira" target="_blank" style="color:var(--gold)">GitHub</a></p>`;
+    <p class="muted small center mt2">Hanabira Flashcards 花びら · v1.2 · <a href="https://github.com/k1adu/hanabira" target="_blank" style="color:var(--gold)">GitHub</a></p>`;
   $('[data-lang]', view).onchange = e => { S.lang = e.target.value; saveSettings(); applyLang(); render(); };
   $('[data-theme]', view).value = S.theme;
   $('[data-theme]', view).onchange = e => { S.theme = e.target.value; applyTheme(); saveSettings(); };
@@ -887,7 +887,7 @@ VIEWS.settings = view => {
   });
 };
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ import / export
+// ───────────────────────── import / export
 function pickImportFile() {
   const inp = document.createElement('input'); inp.type = 'file';
   inp.onchange = () => { const f = inp.files[0]; if (f) importFile(f); };
@@ -981,7 +981,7 @@ async function importApkg(file) {
     const old = existing.get(src);
     const vals = note.flds.split('\x1f'); const fields = {}; m.flds.forEach((n, k) => { fields[n] = vals[k] || ''; });
     const tpl = m.cloze ? m.tmpls[0] : m.tmpls[r.ord]; if (!tpl) continue;
-    let dn = deckNames[r.did] || base; if (/^(Default|Ð—Ð° Ð·Ð°Ð¼Ð¾Ð²Ñ‡ÑƒÐ²Ð°Ð½Ð½ÑÐ¼|Standard|DomyÅ›lna|Predeterminado|ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ)$/.test(dn)) dn = base;
+    let dn = deckNames[r.did] || base; if (/^(Default|За замовчуванням|Standard|Domyślna|Predeterminado|デフォルト)$/.test(dn)) dn = base;
     const ctx = { ord: r.ord + 1, tags: note.tags.trim(), deck: dn.split('::').pop() };
     const front = renderTemplate(tpl.q, fields, { ...ctx, side: 'q' });
     const back = renderTemplate(tpl.a, fields, { ...ctx, side: 'a', front });
@@ -1024,7 +1024,7 @@ async function importApkg(file) {
 }
 
 function parseDelimited(text) {
-  let sep = null, isHtml = null; const lines = text.replace(/^ï»¿/, '').split(/\r?\n/);
+  let sep = null, isHtml = null; const lines = text.replace(/^﻿/, '').split(/\r?\n/);
   while (lines.length && lines[0].startsWith('#')) {
     const h = lines.shift(); const m = h.match(/^#separator:(\w+)/i);
     if (m) sep = { tab: '\t', semicolon: ';', comma: ',', pipe: '|', space: ' ', colon: ':' }[m[1].toLowerCase()] || null;
@@ -1050,7 +1050,7 @@ async function importText(text, name) {
   const conv = s => (isHtml || /<[a-z][^>]*>/i.test(s)) ? s.trim() : textToHtml(s.trim());
   const base = name.replace(/\.[^.]+$/, '');
   sheet(`<h3>${t('text_import')}</h3><p class="muted small">${esc(t('found_rows', { rows: tn(rows.length, 'rows') }))}</p>
-    <div class="panel small" style="margin-bottom:10px"><b>${esc(stripHtml(rows[0][0]))}</b> â†’ ${esc(stripHtml(rows[0][1] || ''))}</div>
+    <div class="panel small" style="margin-bottom:10px"><b>${esc(stripHtml(rows[0][0]))}</b> → ${esc(stripHtml(rows[0][1] || ''))}</div>
     <label class="f">${t('deck_existing_new')}</label><input class="input" data-name list="dlist" value="${esc(base)}">
     <datalist id="dlist">${sortedDecks().map(d => `<option value="${esc(d.name)}">`).join('')}</datalist>
     <label class="check"><input type="checkbox" data-rev> ${t('also_reverse_pl')}</label>
@@ -1081,7 +1081,7 @@ async function collectMedia(names) {
 function offerFile(fileName, json, title) {
   const file = new File([json], fileName, { type: 'application/json' });
   const kb = Math.max(1, Math.round(file.size / 1024));
-  sheet(`<h3>${esc(title)}</h3><p class="muted small">${esc(fileName)} Â· ${kb > 1024 ? fmtNum(kb / 1024) + ' ' + t('mb') : kb + ' ' + t('kb')}</p>
+  sheet(`<h3>${esc(title)}</h3><p class="muted small">${esc(fileName)} · ${kb > 1024 ? fmtNum(kb / 1024) + ' ' + t('mb') : kb + ' ' + t('kb')}</p>
     ${navigator.canShare && navigator.canShare({ files: [file] }) ? `<button class="btn primary" data-share>${t('share_send')}</button>` : ''}
     <button class="btn" data-dl>${t('download')}</button>`, (el, close) => {
     const sh = $('[data-share]', el);
@@ -1152,7 +1152,7 @@ async function importJson(text) {
   root ? go('deck', { id: root.id }) : go('decks');
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ boot
+// ───────────────────────── boot
 $$('#tabs button').forEach(b => b.onclick = () => go(b.dataset.tab));
 // refresh due counts when the app returns to the foreground (only on screens without user input)
 document.addEventListener('visibilitychange', () => { if (!document.hidden && (route.v === 'decks' || route.v === 'deck' || route.v === 'stats') && !$('.sheet-bg')) render(); });

@@ -1,4 +1,4 @@
-﻿// Hanabira service worker: offline-first app shell
+// Hanabira service worker: offline-first app shell
 const VERSION = 'hanabira-v3';
 const SHELL = [
   './', 'index.html', 'style.css', 'i18n.js', 'app.js', 'manifest.webmanifest',
