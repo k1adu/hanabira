@@ -4,6 +4,7 @@ const LANGS = { uk: 'Українська', en: 'English', pl: 'Polski', de: 'De
 
 const I18N = {
 uk: {
+  s_wipe: 'Видалити все', wipe_q: 'Видалити все?', wipe_text: 'Усі колоди ({d}), {cards} та історію повторень буде видалено назавжди. Налаштування залишаться. Спершу можна зробити резервну копію.', wiped: 'Усе видалено', del_found: 'Видалити ({n})', del_found_q: 'Видалити {cards}?', del_forever: 'Це не можна скасувати.', deleted: 'Видалено',
   updated_n: ', оновлено: {n}', s_bury: 'Пов\'язані картки — на інший день', s_bury_h: 'зворотна картка того ж слова не з\'явиться в той самий день',
   tab_decks: 'Колоди', tab_add: 'Додати', tab_browse: 'Пошук', tab_stats: 'Статистика', tab_settings: 'Налаштування',
   cancel: 'Скасувати', save: 'Зберегти', yes: 'Так', del: 'Видалити', create: 'Створити', close: 'Закрити', deck_default: 'Колода',
@@ -55,6 +56,7 @@ uk: {
 },
 
 en: {
+  s_wipe: 'Delete everything', wipe_q: 'Delete everything?', wipe_text: 'All decks ({d}), {cards} and the review history will be deleted permanently. Settings are kept. You may want to create a backup first.', wiped: 'Everything deleted', del_found: 'Delete ({n})', del_found_q: 'Delete {cards}?', del_forever: 'This cannot be undone.', deleted: 'Deleted',
   updated_n: ', updated: {n}', s_bury: 'Space out related cards', s_bury_h: 'the reverse card of the same word waits until another day',
   tab_decks: 'Decks', tab_add: 'Add', tab_browse: 'Browse', tab_stats: 'Stats', tab_settings: 'Settings',
   cancel: 'Cancel', save: 'Save', yes: 'Yes', del: 'Delete', create: 'Create', close: 'Close', deck_default: 'Deck',
@@ -104,6 +106,7 @@ en: {
 },
 
 pl: {
+  s_wipe: 'Usuń wszystko', wipe_q: 'Usunąć wszystko?', wipe_text: 'Wszystkie talie ({d}), {cards} i historia powtórek zostaną trwale usunięte. Ustawienia zostaną. Najpierw możesz zrobić kopię zapasową.', wiped: 'Wszystko usunięto', del_found: 'Usuń ({n})', del_found_q: 'Usunąć {cards}?', del_forever: 'Tego nie można cofnąć.', deleted: 'Usunięto',
   updated_n: ', zaktualizowano: {n}', s_bury: 'Powiązane karty — innego dnia', s_bury_h: 'odwrotna karta tego samego słowa nie pojawi się tego samego dnia',
   tab_decks: 'Talie', tab_add: 'Dodaj', tab_browse: 'Szukaj', tab_stats: 'Statystyki', tab_settings: 'Ustawienia',
   cancel: 'Anuluj', save: 'Zapisz', yes: 'Tak', del: 'Usuń', create: 'Utwórz', close: 'Zamknij', deck_default: 'Talia',
@@ -155,6 +158,7 @@ pl: {
 },
 
 de: {
+  s_wipe: 'Alles löschen', wipe_q: 'Alles löschen?', wipe_text: 'Alle Stapel ({d}), {cards} und der Lernverlauf werden endgültig gelöscht. Die Einstellungen bleiben. Erstelle vorher am besten ein Backup.', wiped: 'Alles gelöscht', del_found: 'Löschen ({n})', del_found_q: '{cards} löschen?', del_forever: 'Das kann nicht rückgängig gemacht werden.', deleted: 'Gelöscht',
   updated_n: ', aktualisiert: {n}', s_bury: 'Verwandte Karten verteilen', s_bury_h: 'die umgekehrte Karte desselben Wortes kommt an einem anderen Tag',
   tab_decks: 'Stapel', tab_add: 'Hinzufügen', tab_browse: 'Suchen', tab_stats: 'Statistik', tab_settings: 'Einstellungen',
   cancel: 'Abbrechen', save: 'Speichern', yes: 'Ja', del: 'Löschen', create: 'Erstellen', close: 'Schließen', deck_default: 'Stapel',
@@ -204,6 +208,7 @@ de: {
 },
 
 es: {
+  s_wipe: 'Eliminar todo', wipe_q: '¿Eliminar todo?', wipe_text: 'Todos los mazos ({d}), {cards} y el historial de repasos se eliminarán para siempre. Los ajustes se conservan. Conviene crear antes una copia de seguridad.', wiped: 'Todo eliminado', del_found: 'Eliminar ({n})', del_found_q: '¿Eliminar {cards}?', del_forever: 'No se puede deshacer.', deleted: 'Eliminado',
   updated_n: ', actualizadas: {n}', s_bury: 'Separar tarjetas relacionadas', s_bury_h: 'la tarjeta inversa de la misma palabra espera a otro día',
   tab_decks: 'Mazos', tab_add: 'Añadir', tab_browse: 'Buscar', tab_stats: 'Estadísticas', tab_settings: 'Ajustes',
   cancel: 'Cancelar', save: 'Guardar', yes: 'Sí', del: 'Eliminar', create: 'Crear', close: 'Cerrar', deck_default: 'Mazo',
@@ -253,6 +258,7 @@ es: {
 },
 
 ja: {
+  s_wipe: 'すべて削除', wipe_q: 'すべて削除しますか？', wipe_text: 'すべてのデッキ（{d}）、{cards}、復習履歴が完全に削除されます。設定は残ります。先にバックアップを作成することをおすすめします。', wiped: 'すべて削除しました', del_found: '削除（{n}）', del_found_q: '{cards}を削除しますか？', del_forever: '元に戻せません。', deleted: '削除しました',
   updated_n: '、更新：{n}', s_bury: '関連カードを別の日に', s_bury_h: '同じ単語の逆向きカードは同じ日に出ません',
   tab_decks: 'デッキ', tab_add: '追加', tab_browse: '検索', tab_stats: '統計', tab_settings: '設定',
   cancel: 'キャンセル', save: '保存', yes: 'はい', del: '削除', create: '作成', close: '閉じる', deck_default: 'デッキ',

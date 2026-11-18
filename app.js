@@ -773,8 +773,10 @@ VIEWS.browse = (view, p) => {
       list.push(c);
     }
     list.sort((a, b) => b.id - a.id);
+    const found = list.slice();
     const total = list.length; list = list.slice(0, 300);
-    $('#bList').innerHTML = total ? `<p class="muted small">${tn(total, 'cards')}${total > 300 ? t('shown300') : ''}</p>
+    $('#bList').innerHTML = total ? `<div style="display:flex;align-items:center;gap:10px;margin:0 0 10px"><p class="muted small" style="flex:1;margin:0">${tn(total, 'cards')}${total > 300 ? t('shown300') : ''}</p>
+      <button class="btn danger" data-delfound style="width:auto;padding:8px 12px;font-size:14px">${t('del_found', { n: total })}</button></div>
       <div class="list">${list.map(c => {
         const due = c.type === 0 ? t('due_new') : c.type === 2 ? (c.due <= today ? t('due_today') : t('due_in', { t: fmtDays(c.due - today) })) : t('due_learn');
         return `<button class="crow ${c.susp ? 'susp' : ''}" data-c="${c.id}"><div class="q">${esc(stripHtml(c.front)) || `<i class="muted">${t('media_only')}</i>`}</div>
@@ -782,6 +784,11 @@ VIEWS.browse = (view, p) => {
         <div class="meta"><span>${esc((decks.get(c.deckId) || {}).name || '?')}</span><span>${due}</span>${c.susp ? `<span>${t('suspended_s')}</span>` : ''}${c.tags ? `<span class="tag">${esc(c.tags)}</span>` : ''}</div></button>`;
       }).join('')}</div>` : `<div class="empty">${t('nothing')}</div>`;
     $$('[data-c]', $('#bList')).forEach(b => b.onclick = () => editCard(cards.get(+b.dataset.c), draw));
+    const df = $('[data-delfound]'); if (df) df.onclick = async () => {
+      if (!await confirmSheet(t('del_found_q', { cards: tn(found.length, 'cardsAcc') }), t('del_forever'), t('del'), true)) return;
+      const ids = found.map(c => c.id); ids.forEach(i => cards.delete(i));
+      await DB.delMany('cards', ids); toast(t('deleted')); draw();
+    };
   };
   let tm; $('#q').oninput = () => { clearTimeout(tm); tm = setTimeout(draw, 150); };
   $('#bDeck').onchange = draw;
@@ -861,10 +868,11 @@ VIEWS.settings = view => {
     <p class="muted small">${t('s_import_h')}</p>
     <button class="btn" data-backup>${t('s_backup')}</button>
     <button class="btn" data-demo>${t('s_demo')}</button>
+    <button class="btn danger" data-wipe>${t('s_wipe')}</button>
     <p class="muted small" id="storage"></p>
     <div class="section-title">${t('s_install')}</div>
     <div class="panel small">${t('s_install_body')}</div>
-    <p class="muted small center mt2">Hanabira Flashcards 花びら · v1.2 · <a href="https://github.com/k1adu/hanabira" target="_blank" style="color:var(--gold)">GitHub</a></p>`;
+    <p class="muted small center mt2">Hanabira Flashcards 花びら · v1.3 · <a href="https://github.com/k1adu/hanabira" target="_blank" style="color:var(--gold)">GitHub</a></p>`;
   $('[data-lang]', view).onchange = e => { S.lang = e.target.value; saveSettings(); applyLang(); render(); };
   $('[data-theme]', view).value = S.theme;
   $('[data-theme]', view).onchange = e => { S.theme = e.target.value; applyTheme(); saveSettings(); };
@@ -881,6 +889,13 @@ VIEWS.settings = view => {
   $('[data-import]', view).onclick = pickImportFile;
   $('[data-backup]', view).onclick = exportBackup;
   $('[data-demo]', view).onclick = makeDemo;
+  $('[data-wipe]', view).onclick = async () => {
+    if (!cards.size && !decks.size) return toast(t('nothing'));
+    if (!await confirmSheet(t('wipe_q'), t('wipe_text', { d: decks.size, cards: tn(cards.size, 'cardsAcc') }), t('del'), true)) return;
+    for (const s of ['decks', 'cards', 'revlog', 'media']) await DB.clear(s);
+    decks.clear(); cards.clear(); revlog = []; mediaUrls.clear();
+    toast(t('wiped')); go('decks');
+  };
   if (navigator.storage && navigator.storage.estimate) navigator.storage.estimate().then(e => {
     const mb = x => fmtNum(x / 1048576) + ' ' + t('mb');
     const el = $('#storage'); if (el) el.textContent = t('s_storage', { used: mb(e.usage || 0) }) + (e.quota ? t('s_quota', { q: mb(e.quota) }) : '');
