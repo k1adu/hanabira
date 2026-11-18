@@ -4,6 +4,7 @@ const LANGS = { uk: 'Українська', en: 'English', pl: 'Polski', de: 'De
 
 const I18N = {
 uk: {
+  updated_n: ', оновлено: {n}', s_bury: 'Пов\'язані картки — на інший день', s_bury_h: 'зворотна картка того ж слова не з\'явиться в той самий день',
   tab_decks: 'Колоди', tab_add: 'Додати', tab_browse: 'Пошук', tab_stats: 'Статистика', tab_settings: 'Налаштування',
   cancel: 'Скасувати', save: 'Зберегти', yes: 'Так', del: 'Видалити', create: 'Створити', close: 'Закрити', deck_default: 'Колода',
   install_hint: '<b>Встанови на iPhone:</b> натисни «Поділитися» ⬆︎ внизу Safari → «На екран „Додому“». Працюватиме як звичайний застосунок і без інтернету.', hide: 'Сховати',
@@ -54,6 +55,7 @@ uk: {
 },
 
 en: {
+  updated_n: ', updated: {n}', s_bury: 'Space out related cards', s_bury_h: 'the reverse card of the same word waits until another day',
   tab_decks: 'Decks', tab_add: 'Add', tab_browse: 'Browse', tab_stats: 'Stats', tab_settings: 'Settings',
   cancel: 'Cancel', save: 'Save', yes: 'Yes', del: 'Delete', create: 'Create', close: 'Close', deck_default: 'Deck',
   install_hint: '<b>Install on iPhone:</b> tap Share ⬆︎ at the bottom of Safari → “Add to Home Screen”. It works like a regular app, even offline.', hide: 'Hide',
@@ -102,6 +104,7 @@ en: {
 },
 
 pl: {
+  updated_n: ', zaktualizowano: {n}', s_bury: 'Powiązane karty — innego dnia', s_bury_h: 'odwrotna karta tego samego słowa nie pojawi się tego samego dnia',
   tab_decks: 'Talie', tab_add: 'Dodaj', tab_browse: 'Szukaj', tab_stats: 'Statystyki', tab_settings: 'Ustawienia',
   cancel: 'Anuluj', save: 'Zapisz', yes: 'Tak', del: 'Usuń', create: 'Utwórz', close: 'Zamknij', deck_default: 'Talia',
   install_hint: '<b>Zainstaluj na iPhonie:</b> stuknij „Udostępnij” ⬆︎ na dole Safari → „Do ekranu początkowego”. Działa jak zwykła aplikacja, także offline.', hide: 'Ukryj',
@@ -152,6 +155,7 @@ pl: {
 },
 
 de: {
+  updated_n: ', aktualisiert: {n}', s_bury: 'Verwandte Karten verteilen', s_bury_h: 'die umgekehrte Karte desselben Wortes kommt an einem anderen Tag',
   tab_decks: 'Stapel', tab_add: 'Hinzufügen', tab_browse: 'Suchen', tab_stats: 'Statistik', tab_settings: 'Einstellungen',
   cancel: 'Abbrechen', save: 'Speichern', yes: 'Ja', del: 'Löschen', create: 'Erstellen', close: 'Schließen', deck_default: 'Stapel',
   install_hint: '<b>Auf dem iPhone installieren:</b> unten in Safari auf „Teilen“ ⬆︎ tippen → „Zum Home-Bildschirm“. Funktioniert wie eine normale App, auch offline.', hide: 'Ausblenden',
@@ -200,6 +204,7 @@ de: {
 },
 
 es: {
+  updated_n: ', actualizadas: {n}', s_bury: 'Separar tarjetas relacionadas', s_bury_h: 'la tarjeta inversa de la misma palabra espera a otro día',
   tab_decks: 'Mazos', tab_add: 'Añadir', tab_browse: 'Buscar', tab_stats: 'Estadísticas', tab_settings: 'Ajustes',
   cancel: 'Cancelar', save: 'Guardar', yes: 'Sí', del: 'Eliminar', create: 'Crear', close: 'Cerrar', deck_default: 'Mazo',
   install_hint: '<b>Instálala en el iPhone:</b> toca Compartir ⬆︎ abajo en Safari → «Añadir a pantalla de inicio». Funciona como una app normal, incluso sin conexión.', hide: 'Ocultar',
@@ -248,6 +253,7 @@ es: {
 },
 
 ja: {
+  updated_n: '、更新：{n}', s_bury: '関連カードを別の日に', s_bury_h: '同じ単語の逆向きカードは同じ日に出ません',
   tab_decks: 'デッキ', tab_add: '追加', tab_browse: '検索', tab_stats: '統計', tab_settings: '設定',
   cancel: 'キャンセル', save: '保存', yes: 'はい', del: '削除', create: '作成', close: '閉じる', deck_default: 'デッキ',
   install_hint: '<b>iPhoneにインストール：</b>Safari下部の共有 ⬆︎ →「ホーム画面に追加」。通常のアプリのように、オフラインでも使えます。', hide: '非表示',

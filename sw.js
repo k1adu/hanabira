@@ -1,5 +1,5 @@
-// Hanabira service worker: offline-first app shell
-const VERSION = 'hanabira-v2';
+﻿// Hanabira service worker: offline-first app shell
+const VERSION = 'hanabira-v3';
 const SHELL = [
   './', 'index.html', 'style.css', 'i18n.js', 'app.js', 'manifest.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
